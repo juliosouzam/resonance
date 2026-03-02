@@ -1,23 +1,10 @@
-import { count } from "drizzle-orm";
-import { database } from "@/lib/database";
-import { voices as voicesSchema } from "@/lib/database/schemas";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 
-export default async function Home() {
-  const voices = await database.query.voices.findMany();
-  const [{ total }] = await database
-    .select({ total: count() })
-    .from(voicesSchema);
-
+export default function Home() {
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Voices ({total})</h1>
-      <ul className="list-disc pl-4">
-        {voices.map((voice) => (
-          <li key={voice.id}>
-            {voice.name} - {voice.variant}
-          </li>
-        ))}
-      </ul>
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <OrganizationSwitcher />
+      <UserButton />
     </div>
   );
 }
